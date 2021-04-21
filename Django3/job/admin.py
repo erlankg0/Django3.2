@@ -132,6 +132,7 @@ class EntryAdmin(admin.ModelAdmin):
         "rating",
     )
 
+
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Author, AuthorAdmin)
