@@ -47,4 +47,49 @@ class Album(models.Model):
         verbose_name = "Альбом"
         verbose_name_plural = "Альбомы"
         ordering = ['name']
-# Create your models here.
+
+
+class Blog(models.Model):
+    name = models.CharField(verbose_name="Категория блога", max_length=75)
+    tag_line = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Категория блога"
+        verbose_name_plural = "Категории блогов"
+        ordering = ['name']
+
+
+class Author(models.Model):
+    name = models.CharField(verbose_name="Имя Автора", max_length=200)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
+        ordering = ['name']
+
+
+class Entry(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    headline = models.CharField(max_length=250, verbose_name="подзаголовок", null=True, blank=True)
+    body_text = models.TextField()
+    pub_date = models.DateField(auto_now=True)
+    mod_date = models.DateField(auto_now_add=True)
+    authors = models.ManyToManyField(Author, verbose_name="Авторы")
+    number_of_comments = models.IntegerField()
+    number_of_pingbacks = models.IntegerField()
+    rating = models.PositiveSmallIntegerField()
+
+    def __str__(self):
+        return self.headline
+
+    class Meta:
+        verbose_name = "Блог"
+        verbose_name_plural = "Блоги"
+        ordering = ['-headline']
