@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Blog, Person, Album, Musician, Author, Entry
+from job.models import Blog, Person, Album, Musician, Author, Entry
 
 
 class BlogAdmin(admin.ModelAdmin):
@@ -37,19 +37,19 @@ class PersonAdmin(admin.ModelAdmin):
 
 class AlbumAdmin(admin.ModelAdmin):
     list_display_links = (
-        "artist",
+        #"artist",
         "name",
         "release_date",
         "nus_star",
     )
     list_display = (
-        "artist",
+        #"artist",
         "name",
         "release_date",
         "nus_star",
     )
     search_fields = (
-        "artist",
+       # "artist",
         "name",
         "release_date",
         "nus_star",
@@ -85,7 +85,7 @@ class MusicianAdmin(admin.ModelAdmin):
         "instrument"
     )
 
-
+"""
 class EntryAdmin(admin.ModelAdmin):
     list_display = (
         "blog",
@@ -130,7 +130,7 @@ class EntryAdmin(admin.ModelAdmin):
         "number_of_comments",
         "number_of_pingbacks",
         "rating",
-    )
+    )"""
 
 
 admin.site.register(Blog, BlogAdmin)
@@ -138,4 +138,4 @@ admin.site.register(Person, PersonAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Musician, MusicianAdmin)
-admin.site.register(Entry,EntryAdmin)
+admin.site.register(Entry)
