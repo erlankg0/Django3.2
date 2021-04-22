@@ -3,5 +3,5 @@ from .views import *
 
 urlpatterns = [
     path("", index),
-    path("<str:name>/<str:surname>/<slug:slug>/", year)
+    path("year/", year)
 ]
