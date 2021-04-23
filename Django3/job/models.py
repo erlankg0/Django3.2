@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class Dog(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Порода собаки")
+    data = models.JSONField(null=True)
+
+    def __str__(self):
+        return self.name
+
 class Person(models.Model):
     SHIRT_SIZES = (
         ('S', 'Small'),
@@ -93,3 +100,36 @@ class Entry(models.Model):
         verbose_name = "Блог"
         verbose_name_plural = "Блоги"
         ordering = ['-headline']
+
+
+class Group(models.Model):
+    name = models.CharField(verbose_name='Имя группы.', max_length=150)
+    members = models.ManyToManyField(Person, through='Membership')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
+        ordering = ['name']
+
+
+class Membership(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    date_join = models.DateTimeField(auto_now=True)
+    invite_reason = models.CharField(max_length=70)
+
+    def __str__(self):
+        return self.group
+
+    class Meta:
+        verbose_name = 'Членство'
+        verbose_name_plural = 'Члены группы'
+        ordering = ['group']
+
+
+# -----------------------------------------------------------------------------------
+
+
