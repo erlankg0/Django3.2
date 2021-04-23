@@ -9,4 +9,6 @@ class News(models.Model):
     photo = models.ImageField(upload_to="photos/%Y/%M/%D", verbose_name="Загрузка картинки")
     is_published = models.BooleanField(verbose_name="Публикация", help_text="Выбор публикации")
 
+    def __str__(self):
+        return self.title
 # Create your models here.
