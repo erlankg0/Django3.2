@@ -2,9 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ News.title }}</title>
 </head>
 <body>
+<div>
+    {% for item in News %}
+        <div>
+        <p>{{ item.title }}</p>
+        <p>{{ item.content }}</p>
+        <p>{{ item.create_at | date  }}</p>
+        <p>{{ item.is_published }}</p>
+        </div>
 
+    {% endfor %}
+
+    <h1>{{ News.content }}</h1>
+</div>
 </body>
 </html>
