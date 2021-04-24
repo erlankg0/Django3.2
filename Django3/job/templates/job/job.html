@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ blog.name }}</title>
+</head>
+<body>
+{% for foo in blog %}
+    <div>
+        <h2>{{ foo.name }}</h2>
+        <p>{{ foo.tag_line }}</p>
+    </div>
+{% endfor %}
+{% for item in author %}
+    <div>
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.email }}</p>
+    </div>
+{% endfor %}
+{% for ent in entry %}
+    <div>
+        <h2>{{ ent.blog }}</h2>
+        <p>{{ ent.headline }}</p>
+        <h3>{{ ent.body_text }}</h3>
+        <p>{{ ent.pub_date | date }}</p>
+        <span>
+            <p>{{ ent.mod_date | date }}</p>
+            <h3>{{ ent.rating }}</h3>
+        </span>
+    </div>
+{% endfor %}
+
+
+</body>
+</html>
