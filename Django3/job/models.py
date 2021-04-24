@@ -1,12 +1,7 @@
 from django.db import models
 
 
-class Dog(models.Model):
-    name = models.CharField(max_length=200, verbose_name="Порода собаки")
-    data = models.JSONField(null=True)
 
-    def __str__(self):
-        return self.name
 
 class Person(models.Model):
     SHIRT_SIZES = (

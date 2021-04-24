@@ -41,7 +41,6 @@ class Book(models.Model):
     class Meta:
         verbose_name_plural = 'Книги'
         verbose_name = 'Книга'
-        ordering = ['authors']
 
 
 class Store(models.Model):

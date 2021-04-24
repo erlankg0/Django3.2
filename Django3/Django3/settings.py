@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'job.apps.JobConfig',
     "news.apps.NewsConfig",
+    "aggregation.apps.AggregationConfig",
 ]
 
 MIDDLEWARE = [
