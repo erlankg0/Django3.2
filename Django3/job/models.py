@@ -1,8 +1,6 @@
 from django.db import models
 
 
-
-
 class Person(models.Model):
     SHIRT_SIZES = (
         ('S', 'Small'),
@@ -12,6 +10,7 @@ class Person(models.Model):
     name = models.CharField(verbose_name="Имя", max_length=50)
     surname = models.CharField(verbose_name="Фамилия", max_length=50)
     size = models.CharField("Выбро размера одежды", max_length=1, choices=SHIRT_SIZES)
+    people = models.Manager()
 
     def __str__(self):
         return self.name + " " + self.surname
@@ -124,7 +123,4 @@ class Membership(models.Model):
         verbose_name_plural = 'Члены группы'
         ordering = ['group']
 
-
 # -----------------------------------------------------------------------------------
-
-
