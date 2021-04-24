@@ -3,5 +3,6 @@ from .views import *
 
 urlpatterns = [
     path("", index),
-    path("year/", year)
+    path("find/", job),
+    path("find/<int:pk>/", my_view),
 ]
