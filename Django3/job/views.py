@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import datetime
 
 
@@ -13,4 +13,3 @@ def index(request):
     now = datetime.datetime.now()
     html = f"<h1>{now}</h1>"
     return HttpResponse(html)
-# Create your views here.
