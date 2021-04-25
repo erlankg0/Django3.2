@@ -5,6 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Book list</h1>
+{% for foo in author %}
+<div>
+    <h1>Имя автора : {{ foo.name }}</h1>
+    <h2>Возраст автора : {{ foo.age }}</h2>
+</div>
+{% endfor %}
 </body>
 </html>
