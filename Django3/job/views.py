@@ -3,6 +3,13 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 import datetime
 from .models import Blog, Author, Entry
 from django.template import loader
+from django.views.generic import TemplateView, ListView
+
+
+
+
+class AboutView(TemplateView):
+    template_name = "job/about.html"
 
 
 def year(request, name, surname, slug):
