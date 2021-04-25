@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Издатель</title>
+</head>
+<body>
+{% for publisher in publishers %}
+<div>
+<ul>
+    <li>Имя :{{ publisher.name }}</li>
+    <li>Адрес :{{ publisher.address }}</li>
+    <li>Город : {{ publisher.city }}</li>
+    <li>Область/Провинция : {{ publisher.state_province }}</li>
+    <li>Страна : {{ publisher.country }}</li>
+    <li>Страница издателя: {{ publisher.website }}</li>
+</ul>
+</div>
+{% endfor %}
+
+</body>
+</html>

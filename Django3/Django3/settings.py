@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'job.apps.JobConfig',
     "news.apps.NewsConfig",
     "aggregation.apps.AggregationConfig",
+    "Views.apps.ViewsConfig",
 ]
 
 MIDDLEWARE = [

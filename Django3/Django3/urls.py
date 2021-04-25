@@ -21,4 +21,5 @@ urlpatterns = [
     path("aggre/", include("aggregation.urls")),
     path("job/", include('job.urls')),
     path("", include("news.urls")),
+    path("views/", include("Views.urls"))
 ]
