@@ -54,4 +54,5 @@ class Store(models.Model):
         verbose_name = 'Магазин'
         verbose_name_plural = 'Магазины'
         ordering = ['name']
-# Create your models here.
+
+
