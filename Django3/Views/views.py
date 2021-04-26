@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, View, TemplateView
 from .models import Publisher, Book, Author
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 
 
 class PublisherList(ListView):
@@ -47,3 +48,13 @@ class AcmeBookList(ListView):
         context['publisher'] = self.publisher
         return context
 
+
+class Mine(View):
+
+    http_method_names = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
+
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponse("""
+        <h1> Hello World!</h1>
+        """)
