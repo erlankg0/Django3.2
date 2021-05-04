@@ -1,31 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ current_rubric.name }}</title>
-</head>
-<body>
-<h1>Объявления</h1>
-<h2>Рубрика : {{ current_rubric.name }}</h2>
-<div>
-    <a href="/bboard/">Главная</a>
-    {% for rubric in rubrics %}
-        <a href="{% url "by_rubric" rubric.pk %}">{{ rubric.name }}</a>
-    {% endfor %}
-    <a href="{% url "add" %}">Добавить объявления</a>
-
-</div>
-<div>
+{% extends "layout/basic.html" %}
+{% block title %}{{ current_rubric.name }}{% endblock %}
+{% block content %}
+    <h2>Рубрика : {{ current_rubric.name }}</h2>
     {% for obj in bboard_obj %}
-        <ul>
-            <il><h3>{{ obj.title }}</h3></il>
-            <il><h3>{{ obj.content }}</h3></il>
-            <il><h3>{{ obj.published }}</h3></il>
-            <li>{{ obj.price }}</li>
-        </ul>
-        <br>
+    <div>
+        <h2>{{ obj.title }}</h2>
+        <p>{{ obj.content }}</p>
+        <p>{{ obj.published }}</p>
+    </div>
     {% endfor %}
-
-</div>
-</body>
-</html>
+{% endblock %}
