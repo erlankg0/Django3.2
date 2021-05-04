@@ -9,7 +9,7 @@
     <div>
         <a href="{% url "index" %}">Главная страница</a>
         {% for rubrics in rubric %}
-        <a href="{% url "by_rubric" rubric_id %}">{{ rubrics.name }}</a>
+        <a href="{% url "by_rubric" rubrics.pk %}">{{ rubrics.name }}</a>
         {% endfor %}
     </div>
     <div>

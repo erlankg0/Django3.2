@@ -11,6 +11,7 @@
     {% for rubric in rubrics %}
         <a href="/bboard/{{ rubric.pk }}">{{ rubric.name }}</a>
     {% endfor %}
+    <a href="{% url "add" %}">Добавить объявления</a>
 </div>
 <div>
     {% for foo in bboard %}
