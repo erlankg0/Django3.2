@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список Объявлений</title>
+</head>
+<body>
+<div>
+    <h1>Объявления</h1>
+    <a href="/bboard/">Главная</a>
+    {% for rubric in rubrics %}
+        <a href="/bboard/{{ rubric.pk }}">{{ rubric.name }}</a>
+    {% endfor %}
+</div>
+<div>
+    {% for foo in bboard %}
+        <h2>{{ foo.title }}</h2>
+        <p>{{ foo.content }}</p>
+        <p><a href="/bboard/{{ foo.rubric.pk }}">{{ foo.rubric.name }}</a></p>
+        <p>{{ foo.published|date:"d.m.Y" }}</p>
+    {% endfor %}
+</div>
+</body>
+</html>

@@ -50,9 +50,7 @@ class AcmeBookList(ListView):
 
 
 class Mine(View):
-
-    http_method_names = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
-
+    http_method_names = ['get']
 
     def get(self, request, *args, **kwargs):
         return HttpResponse("""
