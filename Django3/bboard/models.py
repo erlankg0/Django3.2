@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core import validators
 
+
 class Bb(models.Model):
     class Kinds(models.TextChoices):
         BUY = 'b', "Куплю"
@@ -9,7 +10,8 @@ class Bb(models.Model):
         EXCHANGE = "c", "Обменяю"
         RENT = 'r', "Аренда"
 
-    title = models.CharField(max_length=50, verbose_name="Титул.")#,validators=validators.RegexValidator(regex='^.{4,}$'))
+    title = models.CharField(max_length=50,
+                             verbose_name="Титул.")  # ,validators=validators.RegexValidator(regex='^.{4,}$'))
     content = models.TextField(verbose_name="Контент")
     price = models.FloatField("Цена", blank=True, null=True)
     published = models.DateField("Дата публикаци", auto_now_add=True, db_index=True)
@@ -70,8 +72,8 @@ class Machine(models.Model):
                                                                                                     "авто и объем "
                                                                                                     "мотора и "
                                                                                                     "тип топлива")
-    spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину", blank=True, null=True,
-                                   symmetrical=True)
+    spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину", blank=True)
+
 
     def __str__(self):
         return self.name
