@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Bb, Rubric, AdvUser
+from .models import Spare, Machine
 
 
 class BbAdmin(admin.ModelAdmin):
@@ -51,5 +52,7 @@ class AdvUserAdmin(admin.ModelAdmin):
 admin.site.register(Bb, BbAdmin)
 admin.site.register(Rubric)
 admin.site.register(AdvUser, AdvUserAdmin)
+admin.site.register(Spare)
+admin.site.register(Machine)
 
 # Register your models here.

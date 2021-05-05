@@ -61,8 +61,11 @@ class Spare(models.Model):
 
 
 class Machine(models.Model):
-    name = models.CharField(verbose_name="vашина", max_length=100, blank=True, null=True)
-    spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину")
+    name = models.CharField(verbose_name="vашина", max_length=100, blank=True, null=True, help_text="Напишите модель "
+                                                                                                    "авто и объем "
+                                                                                                    "мотора и "
+                                                                                                    "тип топлива")
+    spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину", blank=True, null=True)
 
     def __str__(self):
         return self.name
