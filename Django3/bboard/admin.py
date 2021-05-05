@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Bb, Rubric
+from .models import Bb, Rubric, AdvUser
 
 
 class BbAdmin(admin.ModelAdmin):
@@ -29,7 +29,27 @@ class BbAdmin(admin.ModelAdmin):
     )
 
 
+class AdvUserAdmin(admin.ModelAdmin):
+    list_display_links = (
+        "is_activated",
+        "user"
+    )
+    list_display = (
+        "is_activated",
+        "user"
+    )
+    list_filter = (
+        "is_activated",
+        "user"
+    )
+    search_fields = (
+        "is_activated",
+        "user"
+    )
+
+
 admin.site.register(Bb, BbAdmin)
 admin.site.register(Rubric)
+admin.site.register(AdvUser, AdvUserAdmin)
 
 # Register your models here.

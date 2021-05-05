@@ -1,13 +1,21 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Bb(models.Model):
+    class Kinds(models.TextChoices):
+        BUY = 'b', "Куплю"
+        SELL = "s", "Продам"
+        EXCHANGE = "c", "Обменяю"
+        RENT = 'r', "Аренда"
+
     title = models.CharField(max_length=50, verbose_name="Титул")
     content = models.TextField(verbose_name="Контент")
     price = models.FloatField("Цена", blank=True, null=True)
     published = models.DateField("Дата публикаци", auto_now_add=True, db_index=True)
     image = models.ImageField(upload_to="bboard/Y/M/D")
     rubric = models.ForeignKey("Rubric", on_delete=models.PROTECT, null=True, verbose_name='Рубрика')
+    kind = models.CharField(verbose_name="Тип объявления", max_length=1, choices=Kinds.choices, default=Kinds.SELL)
 
     def __str__(self):
         return self.title
@@ -28,4 +36,38 @@ class Rubric(models.Model):
         verbose_name_plural = "Рубрики"
         verbose_name = 'Рубрика'
         ordering = ['name']
-# Create your models here.
+
+
+class AdvUser(models.Model):
+    is_activated = models.BooleanField(verbose_name="Активация пользователя", default=True)
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
+        ordering = ['is_activated']
+
+
+class Spare(models.Model):
+    name = models.CharField(verbose_name="запаная машина", max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Добавить запасные."
+        verbose_name = "Добавить запасную."
+        ordering = ['name']
+
+
+class Machine(models.Model):
+    name = models.CharField(verbose_name="vашина", max_length=100, blank=True, null=True)
+    spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Добавить машины."
+        verbose_name = "Добавить машину."
+        ordering = ['name']
