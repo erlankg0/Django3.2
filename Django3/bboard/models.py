@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core import validators
 
 class Bb(models.Model):
     class Kinds(models.TextChoices):
@@ -9,7 +9,7 @@ class Bb(models.Model):
         EXCHANGE = "c", "Обменяю"
         RENT = 'r', "Аренда"
 
-    title = models.CharField(max_length=50, verbose_name="Титул")
+    title = models.CharField(max_length=50, verbose_name="Титул.")#,validators=validators.RegexValidator(regex='^.{4,}$'))
     content = models.TextField(verbose_name="Контент")
     price = models.FloatField("Цена", blank=True, null=True)
     published = models.DateField("Дата публикаци", auto_now_add=True, db_index=True)
@@ -24,6 +24,11 @@ class Bb(models.Model):
         verbose_name_plural = 'Объявления'
         verbose_name = 'Объявление'
         ordering = ['-published']
+        unique_together = (
+            ("title", "price", "published", "kind"),
+            ("title", "price", "rubric", "kind")
+        )
+        get_latest_by = 'published'
 
 
 class Rubric(models.Model):
@@ -61,11 +66,12 @@ class Spare(models.Model):
 
 
 class Machine(models.Model):
-    name = models.CharField(verbose_name="vашина", max_length=100, blank=True, null=True, help_text="Напишите модель "
+    name = models.CharField(verbose_name="Машина", max_length=100, blank=True, null=True, help_text="Напишите модель "
                                                                                                     "авто и объем "
                                                                                                     "мотора и "
                                                                                                     "тип топлива")
-    spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину", blank=True, null=True)
+    spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину", blank=True, null=True,
+                                   symmetrical=True)
 
     def __str__(self):
         return self.name

@@ -13,6 +13,7 @@
     <nav>
         <a href="{% url "index" %}">Главная</a>
         <a href="{% url 'add' %}">Добавить объявления</a>
+        <a href="/admin/" id="admin">Админка</a>
         {% for rubric in rubrics %}
         <a href="{% url "by_rubric" rubric.pk %}">{{ rubric.name }}</a>
         {% endfor %}
