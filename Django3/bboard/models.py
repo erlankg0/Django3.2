@@ -74,7 +74,6 @@ class Machine(models.Model):
                                                                                                     "тип топлива")
     spare = models.ManyToManyField(Spare, verbose_name="Выбрать засную машину", blank=True)
 
-
     def __str__(self):
         return self.name
 
