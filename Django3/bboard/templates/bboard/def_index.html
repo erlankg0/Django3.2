@@ -1,0 +1,17 @@
+{% extends "layout/basic.html" %}
+{% block content %}
+{% for foo in bbs %}
+    <div>
+    <p><a href="{% url "by_rubric" foo.rubric.pk %}">{{ foo.rubric.name }}</a> </p>
+    <h2>{{ foo.title }}</h2>
+    <p>{{ foo.content }}</p>
+    <p>{{ foo.price }}</p>
+    <p>{{ foo.published | date }}</p>
+    </div>
+    <div>
+        <p>
+            {{ http }}
+        </p>
+    </div>
+{% endfor %}
+{% endblock %}
