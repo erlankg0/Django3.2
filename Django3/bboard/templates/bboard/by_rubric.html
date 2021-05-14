@@ -3,10 +3,10 @@
 {% block content %}
     <h2>Рубрика : {{ current_rubric.name }}</h2>
     {% for obj in bboard_obj %}
-    <div>
-        <h2>{{ obj.title }}</h2>
-        <p>{{ obj.content }}</p>
-        <p>{{ obj.published }}</p>
-    </div>
+        <div>
+            <h2><a href="{% url 'detail' pk=obj.pk %}">{{ obj.title }}</a></h2>
+            <p>{{ obj.content }}</p>
+            <p>{{ obj.published }}</p>
+        </div>
     {% endfor %}
 {% endblock %}

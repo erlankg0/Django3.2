@@ -1,13 +1,13 @@
 {% extends "layout/basic.html" %}
 {% block content %}
-{% for foo in bboard %}
-    <div>
-    <p><a href="{% url "by_rubric" foo.rubric.pk %}">{{ foo.rubric.name }}</a> </p>
-    <h2>{{ foo.title }}</h2>
-    <p>{{ foo.content }}</p>
-    <p>{{ foo.price }}</p>
-    <p>{{ foo.published | date }}</p>
-    <img src="{{ foo.image }}" alt="IMAGE">
-    </div>
-{% endfor %}
+    {% for foo in bboard %}
+        <div>
+            <p><a href="{% url "by_rubric" foo.rubric.pk %}">{{ foo.rubric.name }}</a></p>
+            <h2><a href="{% url 'detail' pk=foo.pk %}">{{ foo.title }}</a></h2>
+            <img src="{{ foo.image.url }}" width="250" height="250">
+            <p>{{ foo.content }}</p>
+            <p>{{ foo.price }}</p>
+            <p>{{ foo.published | date }}</p>
+        </div>
+    {% endfor %}
 {% endblock %}
