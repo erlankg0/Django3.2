@@ -1,0 +1,15 @@
+{% extends 'layout/basic.html' %}
+{% block title %}
+Детальное
+{% endblock %}
+{% block content %}
+<div>
+    <h1>Рубрика : <a href="{% url 'by_rubric' object.rubric_id %}">{{ object.rubric }}.</a></h1>
+    <h2>Товар : {{ object.title }}.</h2>
+    <ul>
+        <li>Описание товара : {{ object.content }}</li>
+        <li>Цена товара : {{ object.price }}</li>
+        <li>Дата публикации : {{ object.published }}</li>
+    </ul>
+</div>
+{% endblock %}

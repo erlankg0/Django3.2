@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.http import FileResponse
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Bb, Rubric
-from django.views.generic.edit import CreateView
-from .forms import BbForm
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404
 from django.template.loader import get_template
 from django.template.response import TemplateResponse
+from django.urls import reverse_lazy
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
+
+from .forms import BbForm
 
 
 def index(request):
@@ -15,16 +17,8 @@ def index(request):
     return render(request, "bboard/index.html", context=context)
 
 
-def by_rubric(request, rubric_id):
-    obj = Bb.objects.filter(rubric=rubric_id)
-    rubrics = Rubric.objects.all()
-    current_rubric = Rubric.objects.get(pk=rubric_id)
-    context = {"bboard_obj": obj, "rubrics": rubrics, "current_rubric": current_rubric}
-    return render(request, "bboard/by_rubric.html", context=context)
-
-
 class BbCreatView(CreateView):
-    template_name = 'bboard/create.html'
+    template_name = 'bboard/index.html'
     form_class = BbForm
     success_url = reverse_lazy("index")
 
@@ -57,7 +51,7 @@ def add_and_save(request):
         if bbf.is_valid():
             bbf.save()
             from django.urls import reverse
-            return HttpResponseRedirect(reverse('by_rubric', kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk}))
+            return HttpResponseRedirect(reverse('index', ))
         else:
             context = {"form": bbf}
 
@@ -86,6 +80,43 @@ def high_index(request):
 def templateResponse_index(request, pk='Авто'):
     bbs = Bb.objects.all()
     rubric = Rubric.objects.all()
-    context = {'bbs': bbs, 'rubric': rubric, 'http': print(request.POST)}
+    context = {'bbs': bbs, 'rubric': rubric}
     template = get_template('bboard/def_index.html')
     return TemplateResponse(request, template, context)
+
+
+def detail(request, bb_id):
+    bb = get_object_or_404(Bb, pk=bb_id)
+    return HttpResponse("... Good")
+
+
+def indexing(request):
+    resp_content = ("Здесь будет", "главная", "страница", "сайта")
+    files = r'C:\Users\Erlan\Desktop\Dev\Django3.2\Django3\media\bboard\Y\M\D\bg_xpXcF2U.jpg'
+    resp = FileResponse(open(files, 'rb'))
+    return resp
+
+
+class TemplateViews(TemplateView):
+    template_name = 'bboard/by_rubric.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bboard_obj'] = Bb.objects.filter(rubric=context['rubric_id'])
+        context['rubrics'] = Rubric.objects.all()
+        context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
+        return context
+
+
+from django.views.generic.detail import DetailView
+from .models import Bb, Rubric
+
+
+class BbDetailView(DetailView):
+    model = Bb
+    template_name = 'bboard/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
