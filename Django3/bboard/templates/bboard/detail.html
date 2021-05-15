@@ -10,5 +10,6 @@
         <p>Описание товара : {{ object.content }}</p>
         <p><em>Цена товара</em> : {{ object.price }}</p>
         <p>Дата публикации : {{ object.published }}</p>
+        <h2><a href="{% url 'update' object.pk %}"><em>Исправить объявления.</em></a></h2>
     </div>
 {% endblock %}
