@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.list import ListView
 
 from .forms import BbForm
@@ -165,6 +165,17 @@ class BbAddView(FormView):
 class BbUpdateView(UpdateView):
     model = Bb
     form_class = BbForm
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubric'] = Rubric.objects.all()
+        return context
+
+
+class BbDeleteView(DeleteView):
+    model = Bb
+    queryset = Bb.objects.all()
     success_url = '/'
 
     def get_context_data(self, **kwargs):
