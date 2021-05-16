@@ -5,9 +5,28 @@
             <p><a href="{% url "by_rubric" foo.rubric.pk %}">{{ foo.rubric.name }}</a></p>
             <h2><a href="{% url 'detail' pk=foo.pk %}">{{ foo.title }}</a></h2>
             <img src="{{ foo.image.url }}" width="250" height="250">
-            <p>{{ foo.content }}</p>
-            <p>{{ foo.price }}</p>
-            <p>{{ foo.published | date }}</p>
+            <p>{{ foo.content }} {{ forloop.counter }}</p>
+            <p>{{ foo.price }} {{ forloop.counter }}</p>
+            <p>{{ foo.published | date }} {{ forloop.counter }}</p>
+        </div>
+        <br>
+        <div>
+            <p>
+                {% for d in date_list %}
+                {{ d.year }}
+                {% endfor %}
+            </p>
         </div>
     {% endfor %}
+    <div>
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}">&lt;</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+        {% endif %}
+    Часть №{{ page.number }}
+    {% if page.has_next %}
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="?page={{ page.next_page_number }}">&gt;</a>
+    {% endif %}
+    </div>
 {% endblock %}

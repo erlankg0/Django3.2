@@ -6,13 +6,18 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
+from django.views.generic.dates import ArchiveIndexView, YearArchiveView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.list import ListView
-
+from django.views.generic.dates import MonthArchiveView
+from django.views.generic.detail import SingleObjectTemplateResponseMixin, SingleObjectMixin
 from .forms import BbForm
-
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from django.core.paginator import Paginator
 
 def index(request):
     obj = Bb.objects.all()
@@ -182,3 +187,77 @@ class BbDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['rubric'] = Rubric.objects.all()
         return context
+
+
+class BbIndexView(ArchiveIndexView):
+    model = Bb
+    date_field = 'published'
+    date_list_period = 'year'
+    template_name = 'bboard/index.html'
+    context_object_name = 'bboard'
+    allow_empty = True
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
+
+
+class YearIndexView(YearArchiveView):
+    model = Bb
+    template_name = 'bboard/index.html'
+    make_object_list = True
+    date_field = 'published'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['bboard'] = Bb.objects.all()
+        context['rubric'] = Rubric.objects.all()
+        return context
+
+
+class MonthViews(MonthArchiveView):
+    model = Bb
+    month_format = "%m"
+    date_field = 'published'
+    template_name = 'bboard/index.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['bboard'] = Bb.objects.all()
+        context['rubric'] = Rubric.objects.all()
+        return context
+
+
+class BbByRubricView(SingleObjectMixin, ListView):
+    model = Bb, Rubric
+    template_name = 'bboard/by_rubric.html'
+    pk_url_kwarg = 'rubric_id'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Rubric.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(BbByRubricView, self).get_context_data(**kwargs)
+        context['current_rubric'] = self.object
+        context['rubrics'] = Rubric.objects.all()
+        context['bboard_obj'] = context['object_list']
+        return context
+
+    def get_queryset(self):
+        return self.object.bb_set.all()
+
+
+def index_paginator(request):
+    rubric = Rubric.objects.all()
+    bboard_obj = Bb.objects.all()
+    paginator = Paginator(bboard_obj, 2)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {'rubrics': rubric, 'page': page, 'bbs': page.object_list}
+    return render(request, 'bboard/index.html', context=context)
+
