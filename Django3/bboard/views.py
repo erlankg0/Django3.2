@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import FileResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -7,17 +8,15 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView
+from django.views.generic.dates import MonthArchiveView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.list import ListView
-from django.views.generic.dates import MonthArchiveView
-from django.views.generic.detail import SingleObjectTemplateResponseMixin, SingleObjectMixin
+
 from .forms import BbForm
-import io
-from django.http import FileResponse
-from reportlab.pdfgen import canvas
-from django.core.paginator import Paginator
+
 
 def index(request):
     obj = Bb.objects.all()
