@@ -4,7 +4,6 @@
         <div>
             <p><a href="{% url "by_rubric" foo.rubric.pk %}">{{ foo.rubric.name }}</a></p>
             <h2><a href="{% url 'detail' pk=foo.pk %}">{{ foo.title }}</a></h2>
-            <img src="{{ foo.image.url }}" width="250" height="250">
             <p>{{ foo.content }} {{ forloop.counter }}</p>
             <p>{{ foo.price }} {{ forloop.counter }}</p>
             <p>{{ foo.published | date }} {{ forloop.counter }}</p>

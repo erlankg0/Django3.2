@@ -15,7 +15,6 @@ class Bb(models.Model):
     content = models.TextField(verbose_name="Контент")
     price = models.FloatField("Цена", blank=True, null=True)
     published = models.DateField("Дата публикаци", auto_now_add=True, db_index=True)
-    image = models.ImageField(upload_to="bboard/%Y/%M/%D")
     rubric = models.ForeignKey("Rubric", on_delete=models.PROTECT, null=True, verbose_name='Рубрика')
     kind = models.CharField(verbose_name="Тип объявления", max_length=1, choices=Kinds.choices, default=Kinds.SELL)
 

@@ -5,7 +5,6 @@
 {% block content %}
     <div>
         <h1>Рубрика : <a href="{% url 'by_rubric' object.rubric_id %}">{{ object.rubric }}.</a></h1>
-        <img src="{{ object.image.url }}" width="400" height="400">
         <h2>Товар : {{ object.title }}.</h2>
         <p>Описание товара : {{ object.content }}</p>
         <p><em>Цена товара</em> : {{ object.price }}</p>

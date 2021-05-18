@@ -147,7 +147,7 @@ class BbListView(ListView):
 class BbAddView(FormView):
     template_name = 'bboard/create.html'
     form_class = BbForm
-    initial = {'price': 0.0, "title": 'Mazda RX-8.'}
+    initial = {'price': 0.0}
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -259,4 +259,3 @@ def index_paginator(request):
     page = paginator.get_page(page_num)
     context = {'rubrics': rubric, 'page': page, 'bbs': page.object_list}
     return render(request, 'bboard/index.html', context=context)
-
