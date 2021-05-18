@@ -1,28 +1,20 @@
-from django.core.paginator import Paginator
-from django.http import FileResponse
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.template.loader import get_template
-from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from django.views.generic.dates import ArchiveIndexView, YearArchiveView
-from django.views.generic.dates import MonthArchiveView
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import CreateView
-from django.views.generic.edit import FormView
-from django.views.generic.edit import UpdateView, DeleteView
+from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
+from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormView
 from django.views.generic.list import ListView
 
 from .forms import BbForm
+from .models import Bb, Rubric
 
 
-def index(request):
-    obj = Bb.objects.all()
-    rubrics = Rubric.objects.all()
-    context = {"bboard": obj, "rubrics": rubrics}
-    return render(request, "bboard/index.html", context=context)
+class Index(ListView):
+    model = Bb
+    queryset = Bb.objects.order_by('title')
+    template_name = 'bboard/index.html'
+    context_object_name = 'bboard'
 
 
 class BbCreatView(CreateView):
@@ -36,75 +28,6 @@ class BbCreatView(CreateView):
         return context
 
 
-def add(request):
-    bbf = BbForm()
-    context = {"form": bbf}
-    return render(request, 'bboard/create.html', context=context)
-
-
-def add_save(request):
-    bbf = BbForm(request.POST)
-    if bbf.is_valid():
-        bbf.save()
-        from django.urls import reverse
-        return HttpResponseRedirect(reverse('by_rubric', kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk}))
-    else:
-        context = {"form": bbf}
-        return render(request, 'bboard/create.html', context)
-
-
-def add_and_save(request):
-    if request.method == "POST":
-        bbf = BbForm(request.POST)
-        if bbf.is_valid():
-            bbf.save()
-            from django.urls import reverse
-            return HttpResponseRedirect(reverse('index', ))
-        else:
-            context = {"form": bbf}
-
-    else:
-        bbf = BbForm()
-        context = {"form": bbf}
-        return render(request, 'bboard/create.html', context)
-
-
-def low_index(request):
-    resp = HttpResponse(content="здесь будет!", content_type='text/plain; charset=urf-8')
-    resp.write(' Main')
-    resp.writelines((' page', ' site'))
-    resp['keywords'] = 'Python, Django'
-    return resp
-
-
-def high_index(request):
-    bbs = Bb.objects.all()
-    rubric = Rubric.objects.all()
-    context = {'bbs': bbs, 'rubric': rubric}
-    template = get_template('bboard/def_index.html')
-    return HttpResponse(template.render(context=context, request=request))
-
-
-def templateResponse_index(request, pk='Авто'):
-    bbs = Bb.objects.all()
-    rubric = Rubric.objects.all()
-    context = {'bbs': bbs, 'rubric': rubric}
-    template = get_template('bboard/def_index.html')
-    return TemplateResponse(request, template, context)
-
-
-def detail(request, bb_id):
-    bb = get_object_or_404(Bb, pk=bb_id)
-    return HttpResponse("... Good")
-
-
-def indexing(request):
-    resp_content = ("Здесь будет", "главная", "страница", "сайта")
-    files = r'C:\Users\Erlan\Desktop\Dev\Django3.2\Django3\media\bboard\Y\M\D\bg_xpXcF2U.jpg'
-    resp = FileResponse(open(files, 'rb'))
-    return resp
-
-
 class TemplateViews(TemplateView):
     template_name = 'bboard/by_rubric.html'
 
@@ -114,10 +37,6 @@ class TemplateViews(TemplateView):
         context['rubrics'] = Rubric.objects.all()
         context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
         return context
-
-
-from django.views.generic.detail import DetailView
-from .models import Bb, Rubric
 
 
 class BbDetailView(DetailView):
@@ -246,16 +165,3 @@ class BbByRubricView(SingleObjectMixin, ListView):
 
     def get_queryset(self):
         return self.object.bb_set.all()
-
-
-def index_paginator(request):
-    rubric = Rubric.objects.all()
-    bboard_obj = Bb.objects.all()
-    paginator = Paginator(bboard_obj, 2)
-    if 'page' in request.GET:
-        page_num = request.GET['page']
-    else:
-        page_num = 1
-    page = paginator.get_page(page_num)
-    context = {'rubrics': rubric, 'page': page, 'bbs': page.object_list}
-    return render(request, 'bboard/index.html', context=context)

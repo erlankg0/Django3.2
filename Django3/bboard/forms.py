@@ -29,7 +29,7 @@ class A:
 class BbForm(ModelForm):
     class Meta:
         model = Bb
-        fields = ('title', 'content', 'image', 'kind', 'price', 'rubric')
+        fields = ('title', 'content', 'kind', 'price', 'rubric')
         labels = {'title': 'Название товара.'}
         help_texts = {'rubric': 'Объязательно выберите рубрику!'}
         field_classes = {'price': DecimalField}
