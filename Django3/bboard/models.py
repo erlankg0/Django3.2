@@ -14,7 +14,7 @@ class Bb(models.Model):
                              verbose_name="Титул.")  # ,validators=validators.RegexValidator(regex='^.{4,}$'))
     content = models.TextField(verbose_name="Контент")
     price = models.FloatField("Цена", blank=True, null=True)
-    published = models.DateField("Дата публикаци", auto_now_add=True, db_index=True)
+    published = models.DateTimeField("Дата публикаци", auto_now_add=True, db_index=True)
     rubric = models.ForeignKey("Rubric", on_delete=models.PROTECT, null=True, verbose_name='Рубрика')
     kind = models.CharField(verbose_name="Тип объявления", max_length=1, choices=Kinds.choices, default=Kinds.SELL)
 

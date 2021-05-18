@@ -6,20 +6,26 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormView
 from django.views.generic.list import ListView
 
-from .forms import BbForm
+from .forms import BbForm, BBForm
 from .models import Bb, Rubric
 
 
-class Index(ListView):
+class Index(TemplateView):
     model = Bb
     queryset = Bb.objects.order_by('title')
     template_name = 'bboard/index.html'
     context_object_name = 'bboard'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['bboard'] = Bb.objects.order_by('title')
+        context['rubric'] = Rubric.objects.all()
+        return context
+
 
 class BbCreatView(CreateView):
     template_name = 'bboard/index.html'
-    form_class = BbForm
+    form_class = BBForm
     success_url = reverse_lazy("index")
 
     def get_context_data(self, **kwargs):
@@ -65,8 +71,8 @@ class BbListView(ListView):
 
 class BbAddView(FormView):
     template_name = 'bboard/create.html'
-    form_class = BbForm
-    initial = {'price': 0.0}
+    form_class = BBForm
+    initial = {'price': 1000.0}
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -87,7 +93,7 @@ class BbAddView(FormView):
 
 class BbUpdateView(UpdateView):
     model = Bb
-    form_class = BbForm
+    form_class = BBForm
     success_url = '/'
 
     def get_context_data(self, **kwargs):
